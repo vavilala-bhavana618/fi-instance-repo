@@ -1,0 +1,22 @@
+name: Deploy to GCP
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_key: ${{ secrets.GCP_SA_KEY }}
+        export_default_credentials: true
+
+    - name: Deploy to GCP
+      run: |
+        gcloud compute ssh fi-instance --zone us-central1-a --command "sudo apt-get update && sudo apt-get install -y docker.io && cd /home && git clone https://github.com/vavilala-bhavana618/fi-instance-repo.git && cd fi-instance-repo && docker build -t my-app . && docker run -d -p 80:80 my-app"
