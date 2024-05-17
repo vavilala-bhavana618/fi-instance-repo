@@ -27,7 +27,7 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ec2-user@10.224.118.100 <<EOF
+        ssh -o StrictHostKeyChecking=no ubuntu@10.224.118.100 <<EOF
           docker stop $(docker ps -q)
           docker load < your-app:latest
           docker run -d -p 80:80 your-app:latest
