@@ -1,0 +1,33 @@
+name: Update Wiki
+
+on: workflow_dispatch
+
+jobs:
+  update_wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Check out wiki
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.repository }}.wiki
+          path: .wiki
+
+      - name: Update wiki
+        run: |
+          # Add your commands to update the wiki here
+          # For example, to add a picture to the MMS-IBAR/CB page:
+          echo "![Image description](https://www.google.com/url?sa=i&url=https%3A%2F%2Fgit-scm.com%2Fdownloads%2Flogos&psig=AOvVaw0QM3F07wjWUTXUK6DDEA03&ust=1716369166369000&source=images&cd=vfe&opi=89978449&ved=0CBAQjRxqFwoTCLi-q8aznoYDFQAAAAAdAAAAABAE)" >> .wiki/MMS-IBAR-CB.md
+          # And to add text to the MMS-MinMax page:
+          echo "Your text here" >> .wiki/MMS-MinMax.md
+
+      - name: Push changes
+        run: |
+          cd .wiki
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Update wiki"
+          git push
