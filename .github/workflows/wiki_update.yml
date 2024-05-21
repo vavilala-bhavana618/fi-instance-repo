@@ -14,7 +14,8 @@ jobs:
         with:
           repository: ${{ github.repository }}.wiki
           path: .wiki
-
+          token: ${{ secrets.GH_TOKEN }}  # Add this line
+          
       - name: Update wiki
         run: |
           # Add your commands to update the wiki here
